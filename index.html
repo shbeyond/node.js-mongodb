@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Node.js-ApiDemo</title>
+</head>
+
+<body>
+    <div id="box">看不到看不到</div>
+    <div id="news">新闻</div>
+    <div id="name">我得到的数据是: <span id="got_data"></span></div>
+    <button id="add_data">添加数据</button>
+    <button id="update_data">更新数据</button>
+    <button id="del_data">删除数据</button>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $.ajax({
+            type: "get",
+            url: "/",
+            success: function(res) {
+            },
+            error: function(err) {
+
+            }
+        })
+        $("#add_data").click(function() {
+            $.ajax({
+                type: "get",
+                url: "/data/insert",
+                success: function(res) {
+                    var res = JSON.parse(res)
+                    $.each(res, function(index, value) {
+                        $("#got_data").html(value.lang)
+                    })
+                },
+                error: function(err) {
+                }
+            })
+        })
+        $("#update_data").click(function() {
+            $.ajax({
+                type: "get",
+                url: "/data/update",
+                success: function(res) {
+                    var res = JSON.parse(res)
+                    console.log(res)
+                    $("#got_data").html(res[0].url)
+                },
+                error: function(err) {
+                }
+            })
+        })
+        $("#del_data").click(function() {
+            $.ajax({
+                type: "get",
+                url: "/data/deleteOne",
+                success: function(res) {
+                    var res = JSON.parse(res)
+                    $.each(res, function(index, value) {
+                        $("#name").append(`<div>${value.name}</div>`)
+                    })
+                },
+                error: function(err) {
+                }
+            })
+        })
+    })
+</script>
+
+</html>
